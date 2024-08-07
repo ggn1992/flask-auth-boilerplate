@@ -16,9 +16,13 @@ class Config:
     SESSION_REDIS = Redis.from_url(os.getenv('REDIS_URI'))
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = int(os.getenv('MAIL_PORT', 587))
-    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'false').lower() in ['true', '1', 't']
-    MAIL_USE_SSL = os.getenv('MAIL_USE_SSL', 'true').lower() in ['true', '1', 't']
+    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'true').lower() in ['true', '1', 't']
+    MAIL_USE_SSL = os.getenv('MAIL_USE_SSL', 'flase').lower() in ['true', '1', 't']
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
 
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    WTF_CSRF_ENABLED = False  # Disable CSRF for testing
