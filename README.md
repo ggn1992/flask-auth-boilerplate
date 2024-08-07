@@ -4,13 +4,12 @@
 
 This project is under active development and may contain bugs.
 
-- Made with Python 3, Flask, Bootstrap 5, MariaDB, Redis (server-side sessions)
-- Login / Logout / Change Password
-- Register / Reset Password
+- Made with Python 3, Flask, Bootstrap 5, MariaDB, Redis (for server-side sessions), Docker
+- User Management: Login / Logout / Change Password / Register / Reset Password
+- Containerized deployment
 
 ### Feature Wishlist
 
-- Containerized deployment
 - Role-based authentication
 - 2-Factor-Authentication (e.g. Google Authenticator, Yubikey)
 
@@ -19,14 +18,17 @@ This project is under active development and may contain bugs.
 ```plaintext
 ❯ tree -L 3
 .
+├── Dockerfile
+├── LICENSE
+├── README.md
 ├── app
+│   ├── __init__.py
 │   ├── auth
-│   │   ├── forms.py
 │   │   ├── __init__.py
+│   │   ├── forms.py
 │   │   ├── routes.py
 │   │   └── utils.py
 │   ├── email.py
-│   ├── __init__.py
 │   ├── main
 │   │   ├── __init__.py
 │   │   └── routes.py
@@ -41,20 +43,39 @@ This project is under active development and may contain bugs.
 │   │   ├── partials
 │   │   └── user
 │   └── user
-│       ├── forms.py
 │       ├── __init__.py
+│       ├── forms.py
 │       ├── models.py
 │       └── routes.py
 ├── config.py
 ├── docker-compose.yml
-├── LICENSE
-├── README.md
 ├── requirements.txt
-├── run.py
 ├── tests
-    ├── conftest.py
-    ├── test_auth.py
-    └── test_main.py
+│   ├── conftest.py
+│   ├── test_auth.py
+│   └── test_main.py
+└── wsgi.py
+```
+
+## Dockerfile & docker-compose.yml
+
+The `Dockerfile` uses Python 3.12.4 and Alpine 3.20:
+
+```plaintext
+FROM python:3.12.4-alpine3.20
+```
+
+If you need a MariaDB management frontend for development, just add these lines to the end of `docker-compose.yml`:
+
+```plaintext
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    restart: always
+    ports:
+      - 8080:8080
 ```
 
 ## Setup
@@ -64,6 +85,7 @@ This project is under active development and may contain bugs.
 - Python 3.8+
 - pip (Python package installer)
 - Virtualenv (optional but recommended)
+- Docker (optional but recommended)
 
 ### Installation
 
@@ -94,19 +116,18 @@ Create a .env file in the root directory and add the following variables:
 ```plaintext
 APP_TITLE=My Flask App
 
-# Set environment variables for running the Flask server
-FLASK_DEBUG=1
-FLASK_APP=run.py
-FLASK_ENV=development
+FLASK_APP=wsgi.py
+# Uncomment for development
+#FLASK_DEBUG=1
+#FLASK_ENV=development
 
-# Set Database URI for application:
-# For SQLite use: sqlite:///db.sqlite3
-# For MySQL/MariaDB use: mariadb+mariadbconnector://your_username:your_password@your_host/database_name
 MARIADB_USER=app_user
 MARIADB_PASSWORD=my-secret-pw
 MARIADB_ROOT_PASSWORD=my-secret-pw
 MARIADB_DATABASE=app_db
-MARIADB_HOST=127.0.0.1
+#MARIADB_HOST=127.0.0.1
+# if using docker-compose.yml
+MARIADB_HOST=db
 DATABASE_URI=mariadb+mariadbconnector://${MARIADB_USER}:${MARIADB_PASSWORD}@${MARIADB_HOST}:3306/${MARIADB_DATABASE}
 
 #REDIS_URI=redis://localhost:6379
@@ -126,13 +147,15 @@ MAIL_DEFAULT_SENDER=${MAIL_USERNAME}
 MAIL_USE_TLS=true
 ```
 
-*Optional step: Setup Docker containers*
+5. Optional step: Setup Docker containers
 
 ```sh
-docker compose up -d
+docker compose up --build
+# use -d to detach:
+docker compose up --build -d
 ```
 
-5. Initialize the database
+6. Initialize the database
 
 ```sh
 flask db init
@@ -140,7 +163,7 @@ flask db migrate -m "Initial migration."
 flask db upgrade
 ```
 
-6. Run the application
+7. Run the application
 
 ```sh
 flask run

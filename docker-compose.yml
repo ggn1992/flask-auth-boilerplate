@@ -34,12 +34,3 @@ services:
     image: redis:latest
     container_name: redis
     restart: unless-stopped
-
-  adminer:
-    image: adminer:latest
-    container_name: adminer
-    environment:
-      ADMINER_DEFAULT_SERVER: db
-    restart: always
-    ports:
-      - 8080:8080
