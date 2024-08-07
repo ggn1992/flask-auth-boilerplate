@@ -4,9 +4,9 @@ This project is under active development and may contain bugs.
 
 ![Sign in view](screenshots/screenshot-1.webp)
 
-![Secure passwords are required](screenshots/screenshot-2.png)
+![Secure passwords are required](screenshots/screenshot-2.webp)
 
-![Index page in light mode](screenshots/screenshot-3.png)
+![Index page in light mode](screenshots/screenshot-3.webp)
 
 ## Features
 
