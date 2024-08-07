@@ -109,7 +109,9 @@ MARIADB_DATABASE=app_db
 MARIADB_HOST=127.0.0.1
 DATABASE_URI=mariadb+mariadbconnector://${MARIADB_USER}:${MARIADB_PASSWORD}@${MARIADB_HOST}:3306/${MARIADB_DATABASE}
 
-REDIS_URI=redis://localhost:6379
+#REDIS_URI=redis://localhost:6379
+# if using docker-compose.yml
+REDIS_URI=redis://redis:6379
 
 # Set secret key and CSRF secret key for Flask-WTF
 # Generate using: openssl rand -hex 32

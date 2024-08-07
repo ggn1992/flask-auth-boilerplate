@@ -1,0 +1,90 @@
+2024-08-07 20:01:09,958 INFO: Email sent to ['mail@ggnaegy.de'] [in /app/app/email.py:18]
+2024-08-07 20:01:09,958 INFO: Password reset requested for mail@ggnaegy.de [in /app/app/auth/routes.py:149]
+2024-08-07 20:01:19,894 INFO: Password reset for user: mail@ggnaegy.de [in /app/app/auth/routes.py:169]
+2024-08-07 20:09:29,496 INFO: Email sent to ['mail@ggnaegy.de'] [in /app/app/email.py:18]
+2024-08-07 20:09:29,497 INFO: Password reset requested for mail@ggnaegy.de [in /app/app/auth/routes.py:181]
+2024-08-07 20:09:50,858 INFO: Password reset for user: mail@ggnaegy.de [in /app/app/auth/routes.py:201]
+2024-08-07 20:11:08,365 INFO: Password changed for user: mail@ggnaegy.de [in /app/app/auth/routes.py:132]
+2024-08-07 20:16:41,852 INFO: Password changed for user: mail@ggnaegy.de [in /app/app/auth/routes.py:132]
+2024-08-07 20:16:55,052 ERROR: Exception on /auth/reset_password [GET] [in /usr/local/lib/python3.12/site-packages/flask/app.py:838]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/app/auth/routes.py", line 185, in reset_password
+    return render_template('auth/reset-password.html', form=form)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "/usr/local/lib/python3.12/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/app/app/templates/auth/reset-password.html", line 1, in top-level template code
+    {% extends 'auth.html' %}
+  File "/app/app/templates/auth.html", line 89, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/app/templates/auth/reset-password.html", line 10, in block 'content'
+    {{ form.new_password(class="form-control") }}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/jinja2/utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'app.auth.forms.ResetPasswordRequestForm object' has no attribute 'new_password'
+2024-08-07 20:21:16,014 INFO: Email sent to ['mail@ggnaegy.de'] [in /app/app/email.py:18]
+2024-08-07 20:21:16,015 INFO: Password reset requested for mail@ggnaegy.de [in /app/app/auth/routes.py:179]
+2024-08-07 20:21:25,512 ERROR: Exception on /auth/reset_password/12f72a85-de9f-4152-8eaa-d3bbb990939e [GET] [in /usr/local/lib/python3.12/site-packages/flask/app.py:838]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/app/auth/routes.py", line 225, in reset_password_code
+    return render_template('auth/reset-password.html', form=form)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "/usr/local/lib/python3.12/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/app/app/templates/auth/reset-password.html", line 1, in top-level template code
+    {% extends 'auth.html' %}
+  File "/app/app/templates/auth.html", line 89, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/app/templates/auth/reset-password.html", line 10, in block 'content'
+    {{ form.email(class="form-control") }}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/jinja2/utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'app.auth.forms.SetNewPasswordForm object' has no attribute 'email'
+2024-08-07 20:24:57,075 INFO: Password reset for user: mail@ggnaegy.de [in /app/app/auth/routes.py:216]
+2024-08-07 20:26:38,146 INFO: Password changed for user: mail@ggnaegy.de [in /app/app/auth/routes.py:132]
