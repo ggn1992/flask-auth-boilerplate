@@ -17,5 +17,3 @@ build/
 *.egg-info/
 
 mariadb_data/
-
-migrations

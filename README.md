@@ -7,13 +7,12 @@ This project is under active development and may contain bugs.
 - Made with Python 3, Flask, Bootstrap 5, MariaDB, Redis (server-side sessions)
 - Login / Logout / Change Password
 - Register / Reset Password
-- E-Mails (SMTP server is needed)
 
 ### Feature Wishlist
 
 - Containerized deployment
 - Role-based authentication
-- 2-Factor-Authentication (Google Authenticator, Yubikey)
+- 2-Factor-Authentication (e.g. Google Authenticator, Yubikey)
 
 ## Project Structure
 
@@ -21,25 +20,41 @@ This project is under active development and may contain bugs.
 ❯ tree -L 3
 .
 ├── app
-│   ├── auth
-│   │   ├── forms.py
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   └── routes.py
-│   ├── email.py
-│   ├── __init__.py
-│   ├── main
-│   │   ├── __init__.py
-│   │   └── routes.py
-│   └── templates
-│       ├── auth
-│       ├── base.html
-│       └── main
+│   ├── auth
+│   │   ├── forms.py
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   │   └── utils.py
+│   ├── email.py
+│   ├── __init__.py
+│   ├── main
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── static
+│   │   ├── css
+│   │   └── js
+│   ├── templates
+│   │   ├── auth
+│   │   ├── auth.html
+│   │   ├── base.html
+│   │   ├── main
+│   │   ├── partials
+│   │   └── user
+│   └── user
+│       ├── forms.py
+│       ├── __init__.py
+│       ├── models.py
+│       └── routes.py
 ├── config.py
 ├── docker-compose.yml
+├── LICENSE
 ├── README.md
 ├── requirements.txt
 ├── run.py
+├── tests
+    ├── conftest.py
+    ├── test_auth.py
+    └── test_main.py
 ```
 
 ## Setup
