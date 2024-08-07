@@ -1,0 +1,20 @@
+{% extends 'auth.html' %}
+
+{% block content %}
+<form method="post">
+  {{ form.hidden_tag() }}
+  <img class="mb-4" src="https://placehold.co/72x57" alt="" width="72" height="57">
+  <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+  <div class="form-floating">
+    {{ form.email(class="form-control", placeholder="name@example.com") }}
+    {{ form.email.label(class="form-label") }}
+  </div>
+  <div class="form-floating">
+    {{ form.password(class="form-control", placeholder="Password") }}
+    {{ form.password.label(class="form-label") }}
+  </div>
+  <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+  <p class="mt-5 mb-3 text-body-secondary">Need an account? <a href="{{ url_for('auth.register') }}">Register here</a>.</p>
+</form>
+{% endblock %}
