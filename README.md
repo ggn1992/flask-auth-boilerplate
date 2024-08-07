@@ -1,8 +1,8 @@
 # Flask Authentication Boilerplate
 
-## Features
-
 This project is under active development and may contain bugs.
+
+## Features
 
 - Made with Python 3, Flask, Bootstrap 5, MariaDB, Redis (for server-side sessions), Docker
 - User Management: Login / Logout / Change Password / Register / Reset Password
