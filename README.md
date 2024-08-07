@@ -4,20 +4,16 @@
 
 This project is under active development and may contain bugs.
 
+- Made with Python 3, Flask, Bootstrap 5, MariaDB, Redis (server-side sessions)
 - Login / Logout / Change Password
 - Register / Reset Password
-- Email-based Authentication
+- E-Mails (SMTP server is needed)
 
 ### Feature Wishlist
 
+- Containerized deployment
 - Role-based authentication
-- 2-Factor-Authentication
-
-### Known bugs
-
-- Forgot password is not working
-- CSRF protection
-- Security review in general is needed (**while Production-ready)
+- 2-Factor-Authentication (Google Authenticator, Yubikey)
 
 ## Project Structure
 
