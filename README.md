@@ -57,27 +57,6 @@ This project is under active development and may contain bugs.
 └── wsgi.py
 ```
 
-## Dockerfile & docker-compose.yml
-
-The `Dockerfile` uses Python 3.12.4 and Alpine 3.20:
-
-```plaintext
-FROM python:3.12.4-alpine3.20
-```
-
-If you need a MariaDB management frontend for development, just add these lines to the end of `docker-compose.yml`:
-
-```plaintext
-  adminer:
-    image: adminer:latest
-    container_name: adminer
-    environment:
-      ADMINER_DEFAULT_SERVER: db
-    restart: always
-    ports:
-      - 8080:8080
-```
-
 ## Setup
 
 ### Prerequisites
@@ -167,6 +146,27 @@ flask db upgrade
 
 ```sh
 flask run
+```
+
+## Dockerfile & docker-compose.yml
+
+The `Dockerfile` uses Python 3.12.4 and Alpine 3.20:
+
+```plaintext
+FROM python:3.12.4-alpine3.20
+```
+
+If you need a MariaDB management frontend for development, just add these lines to the end of `docker-compose.yml`:
+
+```plaintext
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    restart: always
+    ports:
+      - 8080:8080
 ```
 
 ## Contributing
