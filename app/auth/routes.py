@@ -1,10 +1,10 @@
 from flask import (
-    flash, g, redirect, render_template, session, url_for, current_app
+    flash, g, redirect, render_template, session, url_for
 )
 import uuid
 from werkzeug.security import check_password_hash, generate_password_hash
-from app.user.models import User, ActivationCode, db
-from app.auth.forms import ResetPasswordRequestForm, LoginRequestForm, RegisterUserRequestForm, PasswordChangeRequestForm
+from app.user.models import User, ActivationCode, PasswordResetCode, db
+from app.auth.forms import ResetPasswordRequestForm, LoginRequestForm, RegisterUserRequestForm, PasswordChangeRequestForm, SetNewPasswordForm
 from app.auth.utils import login_required
 from app.email import send_email
 import logging
@@ -63,9 +63,9 @@ def register():
             activation_link = url_for('auth.activate_account', code=activation_code.code, _external=True)
             email_body = f"""
             <p>Thank you for registering!</p>
-            <p>In order to activate your account, click this link: <a href="{activation_link}">{activation_link}</a></p>
+            <p>To activate your account, click <a href="{activation_link}">this</a> link.</p>
             """
-            send_email('Welcome to Our App', [email], email_body)
+            send_email('Welcome to our App', [email], email_body)
 
         except Exception as e:
             error = f"User {email} is already registered."
@@ -106,29 +106,6 @@ def change_password():
 
     return render_template('auth/change-password.html', form=form)
 
-@bp.route('/forgot-password', methods=('GET', 'POST'))
-def forgot_password():
-    form = ResetPasswordRequestForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        error = None
-        user = User.query.filter_by(email=email).first()
-
-        if user is None:
-            error = 'Incorrect email.'
-        else:
-            reset_token = "dummy-token" # TODO
-            reset_link = url_for('auth.reset_password', token=reset_token, _external=True)
-            email_body = f'<p>Click <a href="{reset_link}">here</a> to reset your password.</p>'
-            send_email('Password Reset Request', [email], email_body)
-            logger.info(f"Password reset requested for {email}")
-            flash('Password reset link has been sent to your email.', 'success')
-
-        if error:
-            flash(error, 'warning')
-
-    return render_template('auth/forgot-password.html', form=form)
-
 @bp.route('/activate_account/<code>')
 def activate_account(code):
     activation_code = ActivationCode.query.filter_by(code=code, is_active=True).first()
@@ -149,3 +126,53 @@ def activate_account(code):
         logger.error(f"Activation failed: Invalid or expired activation code {code}")
 
     return redirect(url_for('main.index'))
+
+@bp.route('/forgot-password', methods=('GET', 'POST'))
+def forgot_password():
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        error = None
+        user = User.query.filter_by(email=email).first()
+
+        if user is None:
+            error = 'Incorrect email.'
+        else:
+            password_reset_code = PasswordResetCode(user_id=user.id, code=str(uuid.uuid4()))
+            db.session.add(password_reset_code)
+            db.session.commit()
+            reset_link = url_for('auth.reset_password', code=password_reset_code.code, _external=True)
+            email_body = f"""
+            <p>Click <a href="{reset_link}">here</a> to reset your password.</p>
+            """
+            send_email('Password Reset Request', [email], email_body)
+            logger.info(f"Password reset requested for {email}")
+            flash('Password reset link has been sent to your email.', 'success')
+
+        if error:
+            flash(error, 'warning')
+
+    return render_template('auth/forgot-password.html', form=form)
+
+@bp.route('/reset_password/<code>', methods=('GET', 'POST'))
+def reset_password(code):
+    form = SetNewPasswordForm()
+    if form.validate_on_submit():
+        password_reset_code = PasswordResetCode.query.filter_by(code=code, is_active=True).first()
+        if password_reset_code:
+            user = User.query.get(password_reset_code.user_id)
+            if user:
+                user.password = generate_password_hash(form.new_password.data)
+                password_reset_code.is_active = False
+                db.session.commit()
+                flash('Your password has been reset. You can now log in with your new password.', 'success')
+                logger.info(f"Password reset for user: {user.email}")
+                return redirect(url_for('auth.login'))
+            else:
+                flash('User associated with this reset code not found.', 'warning')
+                logger.error(f"Password reset failed: User not found for reset code {code}")
+        else:
+            flash('Invalid or expired password reset code.', 'warning')
+            logger.error(f"Password reset failed: Invalid or expired reset code {code}")
+
+    return render_template('auth/reset-password.html', form=form)

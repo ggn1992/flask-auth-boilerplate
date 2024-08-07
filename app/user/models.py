@@ -12,6 +12,7 @@ class User(db.Model):
     date_updated = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     profile = db.relationship('Profile', back_populates='user', uselist=False)
     activation_code = db.relationship('ActivationCode', back_populates='user', uselist=False)
+    password_reset_code = db.relationship('PasswordResetCode', back_populates='user', uselist=False)
 
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,8 +26,17 @@ class Profile(db.Model):
 class ActivationCode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    code = db.Column(db.String(100), nullable=False, unique=True, index=True)
+    code = db.Column(db.String(36), nullable=False, unique=True, index=True)
     date_created = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     date_updated = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     is_active = db.Column(db.Boolean(), default=True)
     user = db.relationship('User', back_populates='activation_code')
+
+class PasswordResetCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    code = db.Column(db.String(36), nullable=False, unique=True, index=True)
+    date_created = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    date_updated = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    is_active = db.Column(db.Boolean(), default=True)
+    user = db.relationship('User', back_populates='password_reset_code')
