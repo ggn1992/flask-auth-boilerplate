@@ -10,7 +10,7 @@ This project is under active development and may contain bugs.
 
 ## Features
 
-- Made with Python 3, Flask, Bootstrap 5, MariaDB, Redis (for server-side sessions), Docker
+- Made with Python 3, Flask, Bootstrap 5.3, MariaDB, Redis (for server-side sessions), Docker
 - User Management: Login / Logout / Change Password / Register / Reset Password
 - Containerized deployment
 
@@ -18,6 +18,7 @@ This project is under active development and may contain bugs.
 
 - Role-based authentication
 - 2-Factor-Authentication (e.g. Google Authenticator, Yubikey)
+- Unittests
 
 ## Project Structure
 
@@ -77,7 +78,7 @@ This project is under active development and may contain bugs.
 1. Clone the repository
 
 ```sh
-git clone https://github.com/yourusername/flask-auth-boilerplate.git
+git clone https://github.com/ggn1992/flask-auth-boilerplate.git
 cd flask-auth-boilerplate
 ```
 
